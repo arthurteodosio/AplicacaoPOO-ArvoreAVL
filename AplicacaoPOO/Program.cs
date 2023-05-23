@@ -34,6 +34,7 @@ namespace AplicacaoPOO
                 {
                     int contador = 0;
                     temp = raiz;
+                    pai = temp;
                     while (temp != null)
                     {
                         subNo = temp;
