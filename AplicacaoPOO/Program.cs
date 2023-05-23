@@ -324,7 +324,7 @@ namespace AplicacaoPOO
         {
             No raiz = null;
             int response = 0;
-            int[] arvoreInicial = { 14, 8, 15, 1, 18, 10 };
+            int[] arvoreInicial = { 14, 8, 18, 5, 10, 1 };
             foreach (int i in arvoreInicial)
             {
                 No temp = new No();
