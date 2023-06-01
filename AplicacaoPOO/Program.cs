@@ -61,62 +61,25 @@ namespace AplicacaoPOO
                             }
                         }
 
-                        if (contador != 0)
+                      if (contador > 0)
                         {
-                            if (pai.fb < -1)
+                            if (pai.fb == -2 && (Math.Abs(subNo.fb) != 2))
                             {
-                                Console.WriteLine($"fb de {pai.info} menor que -1 após {subNo.info}");
+                                Console.WriteLine($"fb de {pai.info} igual a {pai.fb}");
                                 if (subNo.fb < 0)
                                 {
-                                    Console.WriteLine("Próximo Fb negativo");
-                                    if (pai == raiz)
-                                    {
-                                        Console.WriteLine($"Inserindo {subNo.info} na raiz");
-                                        raiz = subNo;
-                                        Console.WriteLine($"Direita de {subNo.info} igual a {pai.info}");
-                                        if (raiz.sad == null)
-                                        {
-                                            raiz.sad = pai;
-                                            pai.sae = null;
-                                        }
-                                        else
-                                        {
-                                            pai.sae = raiz.sad;
-                                            raiz.sad = pai;
-
-                                            raiz.fb += 1;
-                                            pai.fb += 1;
-                                        }
-                                    }
+                                    Console.WriteLine("Rotacionando para a direita");
+                                    raiz.rotacionarArvoreDireita(ref pai, ref subNo);
                                 }
-                                Console.ReadKey();
                             }
-                            else if (pai.fb > 1)
+                            else if (pai.fb == 2 && (Math.Abs(subNo.fb) != 2))
                             {
-                                Console.WriteLine($"Fb de {pai.info} maior que 1 após {subNo.info}");
+                                Console.WriteLine($"fb de {pai.info} igual a {pai.fb}");
                                 if (subNo.fb > 0)
                                 {
-                                    Console.WriteLine("Próximo Fb positivo");
-                                    if (pai == raiz)
-                                    {
-                                        Console.WriteLine($"Inserindo {subNo.info} na raiz");
-                                        raiz = subNo;
-                                        Console.WriteLine($"Esquerda de {subNo.info} igual a {pai.info}");
-                                        if (raiz.sae == null)
-                                        {
-                                            raiz.sae = pai;
-                                            pai.sad = null;
-                                        }
-                                        else
-                                        {
-                                            pai.sad = raiz.sae;
-                                            raiz.sae = pai;
-                                            raiz.fb -= 1;
-                                            pai.fb -= 1;
-                                        }
-                                    }
+                                    Console.WriteLine("Rotacionando para a esquerda");
+                                    raiz.rotacionarArvoreEsquerda(ref pai, ref subNo);
                                 }
-                                Console.ReadKey();
                             }
                             pai = subNo;
                         }
@@ -152,10 +115,28 @@ namespace AplicacaoPOO
 
                 return Math.Max(fbe, fbd);
             }
-            public void rotacionarArvore()
+            public void rotacionarArvoreEsquerda()
             {
+                (pai.info, subno.info) = (subno.info, pai.info);
+                (pai.sad, subno.sad) = (subno.sad, pai.sad);
+                (pai.sae, subno.sae) = (subno.sae, pai.sae);
+                (pai.fb, subno.fb) = (subno.fb, pai.fb);
 
+                subno.sad = pai.sae;
+                pai.sae = subno;
             }
+            
+             public void rotacionarArvoreDireita()
+            {
+                (pai.info, subno.info) = (subno.info, pai.info);
+                (pai.sad, subno.sad) = (subno.sad, pai.sad);
+                (pai.sae, subno.sae) = (subno.sae, pai.sae);
+                (pai.fb, subno.fb) = (subno.fb, pai.fb);
+
+                subno.sae = pai.sad;
+                pai.sad = subno;
+             }
+            
             public void removerNo(int n, ref No raiz)
             {
                 if (this == raiz && raiz.info == n)
