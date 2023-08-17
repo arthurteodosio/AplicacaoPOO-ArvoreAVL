@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace AplicacaoPOO
+namespace ArvoreBinaria
 {
     internal class Program
     {
@@ -18,17 +17,17 @@ namespace AplicacaoPOO
             {
                 sae = null;
                 sad = null;
-                info = 0;
                 fb = 0;
+                info = 0;
             }
-            public void Inserir(int n, ref No raiz)
+            public void adicionar(int n, ref No raiz)
             {
                 No temp, subNo, pai;
                 this.info = n;
                 if (raiz == null)
                 {
                     raiz = this;
-                    Console.WriteLine($"O número {n} é a raiz.");
+                    Console.WriteLine($"O numero {n} e a raiz!");
                 }
                 else
                 {
@@ -45,7 +44,7 @@ namespace AplicacaoPOO
                             if (temp == null)
                             {
                                 subNo.sae = this;
-                                Console.WriteLine($"Número {n} inserido a esquerda de {subNo.info}");
+                                Console.WriteLine($"Numero {n} adicionado a esquerda de { subNo.info} !");
                                 pai.calcularFb();
                             }
                         }
@@ -57,19 +56,20 @@ namespace AplicacaoPOO
                             {
                                 subNo.sad = this;
                                 pai.calcularFb();
-                                Console.WriteLine($"Número {n} inserido a direita de {subNo.info}");
+                                Console.WriteLine($"Numero {n} adicionado a direita de { subNo.info} !");
                             }
                         }
 
-                      if (contador > 0)
+                        if (contador > 0)
                         {
+                            // se fb for igual ou menor que -2
                             if (pai.fb == -2 && (Math.Abs(subNo.fb) != 2))
                             {
                                 Console.WriteLine($"fb de {pai.info} igual a {pai.fb}");
                                 if (subNo.fb < 0)
                                 {
-                                    Console.WriteLine("Rotacionando para a direita");
-                                    raiz.rotacionarArvoreDireita(ref pai, ref subNo);
+                                    Console.WriteLine("Rodnado para a direita");
+                                    raiz.rodarArvoreDireita(ref pai, ref subNo);
                                 }
                             }
                             else if (pai.fb == 2 && (Math.Abs(subNo.fb) != 2))
@@ -77,8 +77,8 @@ namespace AplicacaoPOO
                                 Console.WriteLine($"fb de {pai.info} igual a {pai.fb}");
                                 if (subNo.fb > 0)
                                 {
-                                    Console.WriteLine("Rotacionando para a esquerda");
-                                    raiz.rotacionarArvoreEsquerda(ref pai, ref subNo);
+                                    Console.WriteLine("Rodando para a esquerda");
+                                    raiz.rodarArvoreEsquerda(ref pai, ref subNo);
                                 }
                             }
                             pai = subNo;
@@ -96,7 +96,7 @@ namespace AplicacaoPOO
             }
             public void mostrarFb()
             {
-                Console.WriteLine($"Fb de {this.info} é igual a {this.fb}");
+                Console.WriteLine($"fb de {this.info} e igual a {this.fb}");
 
                 if (this.sae != null) (this.sae).mostrarFb();
                 if (this.sad != null) (this.sad).mostrarFb();
@@ -109,13 +109,11 @@ namespace AplicacaoPOO
                 if (this.sae != null) fbe = (this.sae).calcularFb() + 1;
                 if (this.sad != null) fbd = (this.sad).calcularFb() + 1;
 
-                this.fb = fbe - fbd;
-
-                Console.WriteLine($"Fb de {this.info} = {this.fb}");
+                this.fb = fbd - fbe;
 
                 return Math.Max(fbe, fbd);
             }
-            public void rotacionarArvoreEsquerda()
+            public void rodarArvoreEsquerda(ref No pai, ref No subno)
             {
                 (pai.info, subno.info) = (subno.info, pai.info);
                 (pai.sad, subno.sad) = (subno.sad, pai.sad);
@@ -125,8 +123,7 @@ namespace AplicacaoPOO
                 subno.sad = pai.sae;
                 pai.sae = subno;
             }
-            
-             public void rotacionarArvoreDireita()
+            public void rodarArvoreDireita(ref No pai, ref No subno)
             {
                 (pai.info, subno.info) = (subno.info, pai.info);
                 (pai.sad, subno.sad) = (subno.sad, pai.sad);
@@ -135,28 +132,27 @@ namespace AplicacaoPOO
 
                 subno.sae = pai.sad;
                 pai.sad = subno;
-             }
-            
-            public void removerNo(int n, ref No raiz)
+            }
+            public void deletarNo(int n, ref No raiz)
             {
                 if (this == raiz && raiz.info == n)
                 {
                     if (this.sae == null && this.sad == null)
                     {
                         raiz = null;
-                        Console.WriteLine("Árvore removida.");
+                        Console.WriteLine("Arvore apagada!");
                     }
                     else if (this.sad == null || this.sae == null)
                     {
                         if (this.sad != null)
                         {
                             raiz = this.sad;
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sad.info} (Nova raiz).");
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sad.info} (Nova raiz)!");
                         }
                         else
                         {
                             raiz = this.sae;
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sae.info} (Nova raiz).");
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sae.info} (Nova raiz)!");
                         }
                     }
                     else
@@ -166,8 +162,8 @@ namespace AplicacaoPOO
                         {
                             temp.sad = this.sad;
                             raiz = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info} (Nova raiz).");
-                        }
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} (Nova raiz)!");
+}
                         else
                         {
                             No subNo = temp;
@@ -180,7 +176,7 @@ namespace AplicacaoPOO
                             temp.sae = this.sae;
                             temp.sad = this.sad;
                             raiz = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info} (Nova raiz).");
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} (Nova raiz)!");
                         }
                     }
                 }
@@ -191,11 +187,11 @@ namespace AplicacaoPOO
                         if (this.sad.info == n)
                         {
                             this.sad = null;
-                            Console.WriteLine($"Número {n} (Sem filhos) removido.");
+                            Console.WriteLine($"Numero {n} (Sem filhos) deletado!");
                         }
                         else
                         {
-                            Console.WriteLine($"Número {n} não foi encontrado.");
+                            Console.WriteLine($"Numero {n} nao foi encontrado!");
                         }
                     }
                     else if ((this.sad).info == n && (((this.sad).sad) ==
@@ -204,13 +200,13 @@ namespace AplicacaoPOO
                         if (((this.sad).sad) != null)
                         {
                             this.sad = ((this.sad).sad);
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sad.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sad.info} !");
                         }
                         else
                         {
                             this.sad = ((this.sad).sae);
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sad.info}.");
-                        }
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sad.info} !");
+}
                     }
                     else if ((this.sad).info == n && (((this.sad).sad) !=
                     null && ((this.sad).sae) != null))
@@ -220,7 +216,7 @@ namespace AplicacaoPOO
                         {
                             temp.sad = (this.sad).sad;
                             this.sad = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} !");
                         }
                         else
                         {
@@ -234,12 +230,12 @@ namespace AplicacaoPOO
                             temp.sae = (this.sad).sae;
                             temp.sad = (this.sad).sad;
                             this.sad = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} !");
                         }
                     }
                     else
                     {
-                        (this.sad).removerNo(n, ref raiz);
+                        (this.sad).deletarNo(n, ref raiz);
                     }
                 }
                 else if (n < this.info)
@@ -249,12 +245,12 @@ namespace AplicacaoPOO
                         if (this.sae.info == n)
                         {
                             this.sae = null;
-                            Console.WriteLine($"Número {n} (Sem filhos) removido.");
+                            Console.WriteLine($"Numero {n} (Sem filhos) deletado!");
                         }
                         else
                         {
-                            Console.WriteLine($"Número {n} não foi encontrado.");
-                        }
+                            Console.WriteLine($"Numero {n} nao foi encontrado!");
+}
                     }
                     else if ((this.sae).info == n && (((this.sae).sad) ==
                     null || ((this.sae).sae) == null))
@@ -262,12 +258,12 @@ namespace AplicacaoPOO
                         if (((this.sae).sad) != null)
                         {
                             this.sae = ((this.sae).sad);
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sae.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sae.info} !");
                         }
                         else
                         {
                             this.sae = ((this.sae).sae);
-                            Console.WriteLine($"Número {n} removido (Um filho) foi substituído por {this.sae.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Um filho) foi substituido por { this.sae.info} !");
                         }
                     }
                     else if ((this.sae).info == n && (((this.sae).sad) !=
@@ -278,7 +274,7 @@ namespace AplicacaoPOO
                         {
                             temp.sad = (this.sae).sad;
                             this.sae = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} !");
                         }
                         else
                         {
@@ -292,12 +288,12 @@ namespace AplicacaoPOO
                             temp.sae = (this.sae).sae;
                             temp.sad = (this.sae).sad;
                             this.sae = temp;
-                            Console.WriteLine($"Número {n} removido (Dois filhos) foi substituído por {temp.info}.");
+                            Console.WriteLine($"Numero {n} deletado (Dois filhos) foi substituido por { temp.info} !");
                         }
                     }
                     else
                     {
-                        (this.sae).removerNo(n, ref raiz);
+                        (this.sae).deletarNo(n, ref raiz);
                     }
                 }
             }
@@ -306,19 +302,21 @@ namespace AplicacaoPOO
         {
             No raiz = null;
             int response = 0;
-            int[] arvoreInicial = { 14, 8, 18, 5, 10, 1 };
+            //int[] arvoreInicial = { 15, 10, 20, 17, 16, 18, 21, 12, 11, 5, 8, 9 };
+            int[] arvoreInicial = { 5, 4, 3, 2, 1 };
             foreach (int i in arvoreInicial)
             {
                 No temp = new No();
-                temp.Inserir(i, ref raiz);
+                temp.adicionar(i, ref raiz);
+                Console.ReadKey();
             }
             while (response != 5)
             {
                 Console.Clear();
-                Console.WriteLine("1 - Inserir Nó");
-                Console.WriteLine("2 - Mostrar Árvore");
-                Console.WriteLine("3 - Remover Nó");
-                Console.WriteLine("4 - Calcular Fb");
+                Console.WriteLine("1 - Adicionar No");
+                Console.WriteLine("2 - Mostrar arvore");
+                Console.WriteLine("3 - Deletear No");
+                Console.WriteLine("4 - Calcular FB");
                 Console.WriteLine("5 - Sair");
                 response = int.Parse(Console.ReadLine());
                 if (response == 1)
@@ -326,7 +324,7 @@ namespace AplicacaoPOO
                     Console.Clear();
                     int n = int.Parse(Console.ReadLine());
                     No temp = new No();
-                    temp.Inserir(n, ref raiz);
+                    temp.adicionar(n, ref raiz);
                     Console.ReadKey();
                 }
                 else if (response == 2)
@@ -338,7 +336,7 @@ namespace AplicacaoPOO
                     }
                     else
                     {
-                        Console.WriteLine("Árvore vazia");
+                        Console.WriteLine("Arvore vazia");
                     }
                     Console.ReadKey();
                 }
@@ -348,11 +346,11 @@ namespace AplicacaoPOO
                     int n = int.Parse(Console.ReadLine());
                     if (raiz != null)
                     {
-                        raiz.removerNo(n, ref raiz);
+                        raiz.deletarNo(n, ref raiz);
                     }
                     else
                     {
-                        Console.WriteLine("Árvore vazia");
+                        Console.WriteLine("Arvore vazia");
                     }
                     Console.ReadKey();
                 }
@@ -361,11 +359,11 @@ namespace AplicacaoPOO
                     Console.Clear();
                     if (raiz != null)
                     {
-                        raiz.calcularFb();
+                        raiz.mostrarFb();
                     }
                     else
                     {
-                        Console.WriteLine("Árvore vazia");
+                        Console.WriteLine("Arvore vazia");
                     }
                     Console.ReadKey();
                 }
